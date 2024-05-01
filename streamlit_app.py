@@ -1,6 +1,5 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 
 # Write directly to the app
@@ -10,8 +9,9 @@ st.write("Choose the fruits you want in your custom Smoothie!")
 name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name on your Smoothie will be:', name_on_order)
 
-# Display the Fruit Options List in your Streamlit in SiS App.
-session = get_active_session()
+# Display the Fruit Options List in your Streamlit App.
+cnx = st.connection('snowflake')
+session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 # st.dataframe(data=my_dataframe, use_container_width=True)
 
